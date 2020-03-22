@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS TB_TRANSACAO;
+ 
+CREATE TABLE TB_TRANSACAO (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  id_aluno INT NOT NULL,
+  valor_compra decimal(19,2) NOT NULL,
+  data_compra timestamp NOT NULL
+);

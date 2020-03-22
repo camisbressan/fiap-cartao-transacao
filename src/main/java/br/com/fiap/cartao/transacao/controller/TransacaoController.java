@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@Api(value = "Transacao")
+@Api(value = "Transação")
 @RequestMapping("transacao")
 public class TransacaoController {
 

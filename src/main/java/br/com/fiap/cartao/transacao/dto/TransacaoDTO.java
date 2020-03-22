@@ -5,13 +5,19 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.fiap.cartao.transacao.entity.Transacao;
 
 public class TransacaoDTO {
 
     private Integer id;
+    
     private Integer idAluno;
+    
     private BigDecimal valorCompra;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private ZonedDateTime dataCompra;
     
     public TransacaoDTO(){}

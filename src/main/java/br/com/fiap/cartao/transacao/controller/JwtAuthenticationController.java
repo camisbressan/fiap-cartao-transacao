@@ -1,4 +1,4 @@
-package br.com.fiap.cartao.transacao.security;
+package br.com.fiap.cartao.transacao.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.fiap.cartao.transacao.security.JwtRequest;
+import br.com.fiap.cartao.transacao.security.JwtResponse;
+import br.com.fiap.cartao.transacao.security.JwtTokenUtil;
+import br.com.fiap.cartao.transacao.security.JwtUserDetailsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -32,7 +36,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@ApiOperation(value = "Gera um token")
+	@ApiOperation(value = "Gera um token de autenticação")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Token gerado com sucesso"),
 			@ApiResponse(code = 401, message = "Você não tem autorização"),
 			@ApiResponse(code = 403, message = "É proibido acessar esse recurso"),

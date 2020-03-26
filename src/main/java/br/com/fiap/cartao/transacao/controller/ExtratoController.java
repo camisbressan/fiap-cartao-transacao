@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.fiap.cartao.transacao.client.AlunoClient;
+import br.com.fiap.cartao.transacao.dto.AlunoDTO;
 import br.com.fiap.cartao.transacao.dto.TransacaoDTO;
 import br.com.fiap.cartao.transacao.service.TransacaoService;
 import br.com.fiap.cartao.transacao.util.GeneratePdfReport;
@@ -32,6 +34,7 @@ public class ExtratoController {
 	public ResponseEntity<InputStreamResource> extratoTodasTransacoes() {
 
 		List<TransacaoDTO> transacoes = transacaoService.findAll();
+		
 		ByteArrayInputStream bis = GeneratePdfReport.extratoTodasTransacoes(transacoes);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -43,16 +46,21 @@ public class ExtratoController {
 
 	@ApiOperation(value = "Gera um extrato em PDF de todas as transações de um aluno")
 	@GetMapping(value = "/aluno/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<InputStreamResource> extratoTransacoesPorAluno(@PathVariable(value = "id") Integer idAluno) {
+	public ResponseEntity<InputStreamResource> extratoTransacoesPorAluno(@PathVariable(value = "id") Integer idAluno) throws Exception {
+		try {
+			List<TransacaoDTO> transacoes = transacaoService.findAllPorAluno(idAluno);
+			AlunoDTO aluno = AlunoClient.consultaAluno(idAluno);
+			ByteArrayInputStream bis = GeneratePdfReport.extratoTransacoesPorAluno(transacoes, aluno);
 
-		List<TransacaoDTO> transacoes = transacaoService.findAllPorAluno(idAluno);
-		ByteArrayInputStream bis = GeneratePdfReport.extratoTransacoesPorAluno(transacoes, idAluno);
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Disposition", "inline; filename=extratotransacoesporaluno.pdf");
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Disposition", "inline; filename=extratotransacoesporaluno.pdf");
+			return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+					.body(new InputStreamResource(bis));
+		} catch (Exception e) {
+			throw new Exception("Não foi possível gerar o extrato");
+		}
 
-		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
-				.body(new InputStreamResource(bis));
 	}
 
 }

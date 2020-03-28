@@ -10,6 +10,20 @@
   
  ---
 
+## Componentes utilizados
+
+  - Spring Web
+  
+  - Spring Security
+  
+  - Spring JPA
+  
+  - H2 Database
+  
+  - JUnit
+
+ ---
+
 ## Instalação e execução do projeto
 
 `$ git clone https://github.com/camisbressan/fiap-cartao-transacao.git`
@@ -58,3 +72,9 @@ A aplicação permite a criação e exclusão de uma transação, além das rota
 http://localhost:8081/swagger-ui.html
 
 ![Swagger](docs/SWAGGER.jpg)
+
+## Testes unitários
+
+ServiceImpl
+
+![Teste_unitario_service_impl](docs/TESTE_UNITARIO_SERVICE_IMPL.jpg)

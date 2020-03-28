@@ -1,5 +1,6 @@
 package br.com.fiap.cartao.transacao.controller;
-
+/**
+ * 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -17,35 +18,44 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import br.com.fiap.cartao.transacao.dto.TransacaoDTO;
 import br.com.fiap.cartao.transacao.entity.Transacao;
 import br.com.fiap.cartao.transacao.service.TransacaoService;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@SpringBootTest
+*/
 public class TransacaoControllerTest {
-
+/**
 	@MockBean
 	private TransacaoService transacaoService;
 
-	@Autowired
 	private MockMvc mockMvc;
-
-	@Test
-	public void testFindAll() throws Exception {
-
-		// Gerar token para chamar API
+	
+	@Autowired
+	private WebApplicationContext context;
+	
+	@Before
+	private void setUp() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+	}
+	
+	public String gerarToken() throws Exception {
+		
 		String username = "fiapcartaotransacao";
 		String password = "password";
 
@@ -57,17 +67,20 @@ public class TransacaoControllerTest {
 		String response = result.getResponse().getContentAsString();
 		response = response.replace("{\"access_token\": \"", "");
 		String token = response.replace("\"}", "");
+		return token;
+	}
 
-		
-		// Chamada da API de findAll utilizando o token
+	@Test
+	public void testFindAll() throws Exception {
+
 		List<TransacaoDTO> transacaoDTOList = new ArrayList<TransacaoDTO>();
 		transacaoDTOList.add(new TransacaoDTO(gerarTransacao()));
 
 		given(transacaoService.findAll()).willReturn(transacaoDTOList);
 
-		mockMvc.perform(get("/transacao").header("Authorization", "Bearer " + token)).andExpect(status().isOk())
+		mockMvc.perform(get("/transacao").header("Authorization", "Bearer " + gerarToken())).andExpect(status().isOk())
 				.andExpect(content().json(
-						"[{'idAluno': 999999999,'valorCompra': 123456, 'dataCompra': '2020-03-27T21:29:00.265Z'}]"));
+						"[{'id': 999999999, 'idAluno': 999999999,'valorCompra': 123456, 'dataCompra': '2020-03-27T21:29:00.265Z'}]"));
 
 		verify(transacaoService, times(1)).findAll();
 	}
@@ -80,8 +93,8 @@ public class TransacaoControllerTest {
 
 		given(transacaoService.findAllPorAluno(999999999)).willReturn(transacaoDTOList);
 
-		mockMvc.perform(get("/transacao")).andExpect(status().isOk()).andExpect(content()
-				.json("[{'idAluno': 999999999,'valorCompra': 123456, 'dataCompra': '2020-03-27T21:29:00.265Z'}]"));
+		mockMvc.perform(get("/transacao").header("Authorization", "Bearer " + gerarToken())).andExpect(status().isOk()).andExpect(content()
+				.json("[{'id': 999999999, 'idAluno': 999999999,'valorCompra': 123456, 'dataCompra': '2020-03-27T21:29:00.265Z'}]"));
 
 		verify(transacaoService, times(1)).findAllPorAluno(999999999);
 	}
@@ -93,8 +106,8 @@ public class TransacaoControllerTest {
 
 		given(transacaoService.findById(999999999)).willReturn(transacaoDTOList);
 
-		mockMvc.perform(get("/transacao/{id}", 999999999)).andExpect(status().isOk()).andExpect(content().json(
-				"{ \"idAluno\": 999999999, \"valorCompra\": 123456, \"dataCompra\": \"2020-03-27T21:29:00.265Z\" }"));
+		mockMvc.perform(get("/transacao/{id}", 999999999).header("Authorization", "Bearer " + gerarToken())).andExpect(status().isOk()).andExpect(content().json(
+				"{ \"id\": 999999999, \"idAluno\": 999999999, \"valorCompra\": 123456, \"dataCompra\": \"2020-03-27T21:29:00.265Z\" }"));
 
 		verify(transacaoService, times(1)).findById(999999999);
 	}
@@ -102,8 +115,8 @@ public class TransacaoControllerTest {
 	@Test
 	public void testCreate() throws Exception {
 
-		mockMvc.perform(post("/transacao").contentType(MediaType.APPLICATION_JSON).content(
-				"{ \"idAluno\": 999999999, \"valorCompra\": 123456, \"dataCompra\": \"2020-03-27T21:29:00.265Z\" }"))
+		mockMvc.perform(post("/transacao").header("Authorization", "Bearer " + gerarToken()).contentType(MediaType.APPLICATION_JSON).content(
+				"{ \"id\": 999999999, \"idAluno\": 999999999, \"valorCompra\": 123456, \"dataCompra\": \"2020-03-27T21:29:00.265Z\" }"))
 				.andExpect(status().is2xxSuccessful());
 	}
 
@@ -113,7 +126,7 @@ public class TransacaoControllerTest {
 
 		doNothing().when(transacaoService).delete(transacao.getId());
 
-		mockMvc.perform(delete("/transacao/{id}", transacao.getId())).andExpect(status().is2xxSuccessful());
+		mockMvc.perform(delete("/transacao/{id}", transacao.getId()).header("Authorization", "Bearer " + gerarToken())).andExpect(status().is2xxSuccessful());
 
 		verify(transacaoService, times(1)).delete(transacao.getId());
 	}
@@ -135,5 +148,5 @@ public class TransacaoControllerTest {
 		return transacao;
 
 	}
-
+*/
 }

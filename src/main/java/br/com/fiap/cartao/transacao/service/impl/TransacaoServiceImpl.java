@@ -31,29 +31,20 @@ public class TransacaoServiceImpl implements TransacaoService {
 
 	@Override
 	public TransacaoDTO findById(Integer id) {
-		return saveAndGetTransacaoDTO(getTransacao(id));
-	}
-
-	private Transacao getTransacao(Integer id) {
-		return transacaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		return new TransacaoDTO(
+				transacaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
 	}
 
 	@Override
 	public TransacaoDTO create(CreateTransacaoDTO createTransacaoDTO) {
 		Transacao transacao = new Transacao(createTransacaoDTO);
 		transacao.setDataCompra(new Date());
-		return saveAndGetTransacaoDTO(transacao);
-	}
-
-	private TransacaoDTO saveAndGetTransacaoDTO(Transacao transacao) {
-		Transacao savedTransacao = transacaoRepository.save(transacao);
-		return new TransacaoDTO(savedTransacao);
+		return new TransacaoDTO(transacaoRepository.save(transacao));
 	}
 
 	@Override
 	public void delete(Integer id) {
-		Transacao transacao = getTransacao(id);
-		transacaoRepository.delete(transacao);
+		transacaoRepository.deleteById(id);
 	}
 	
 	@Override

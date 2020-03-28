@@ -1,6 +1,6 @@
 # Projeto Cartão de Crédito FIAP - Transação
 
-## Pré-requisitos para execução da aplicação de alunos
+## Pré-requisitos para execução da aplicação de transação
 
 - Tecnologias necessárias.
 
@@ -32,7 +32,7 @@
 
 Após executar a aplicação de Alunos, no diretório `src` no pacote `br.com.fiap.cartao.transacao` existe um arquivo chamado `TransacaoApplication.java`. Abra esse arquivo e execute Run.
 
-A carga de dados de transação inicial será feita através do arquivo `/src/main/resources/data.sql` e pode ser validada pela API de listagem de transação (http://localhost:8081/transacao) via Swagger e via Postman. 
+A carga de dados de transação inicial será feita através do arquivo `/src/main/resources/data.sql` e pode ser validada pela API de listagem de transação (http://localhost:8081/transacao) via Postman. 
 
 Como teremos uma integração com outras empresas para lançamento das compras realizadas pelos alunos, todas as rotas obrigarão a utilização de um token para validação do acesso.
 

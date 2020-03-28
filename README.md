@@ -16,7 +16,7 @@
   
   - Spring Security
   
-  - Spring JPA
+  - Spring Data JPA
   
   - H2 Database
   

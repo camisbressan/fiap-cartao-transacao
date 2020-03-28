@@ -20,7 +20,9 @@
   
   - H2 Database
   
-  - JUnit
+  - JUnit (testes)
+  
+  - Swagger (documentação)
 
  ---
 
@@ -75,6 +77,5 @@ http://localhost:8081/swagger-ui.html
 
 ## Testes unitários
 
-- ServiceImpl
 
 ![Teste_unitario_service_impl](docs/TESTE_UNITARIO_SERVICE_IMPL.jpg)

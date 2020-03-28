@@ -29,7 +29,7 @@ Passo 1 - Gerar token de validação (http://localhost:8081/authenticate), simul
   "usuario": "fiapcartaotransacao"
 }
 
-IMAGEM 1
+![Postman_Autorizacao](docs/img/POSTMAN_AUTH.jpeg)
 
 Passo 2 - Listar transações (http://localhost:8081/transacao) utilizando o token gerado:
 

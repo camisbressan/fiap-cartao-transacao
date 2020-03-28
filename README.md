@@ -29,11 +29,11 @@ Passo 1 - Gerar token de validação (http://localhost:8081/authenticate), simul
   "usuario": "fiapcartaotransacao"
 }
 
-![Postman_Autorizacao](docs/img/POSTMAN_AUTH.jpeg)
+![Postman_Autorizacao](docs/POSTMAN_AUTH.jpeg)
 
 Passo 2 - Listar transações (http://localhost:8081/transacao) utilizando o token gerado:
 
-IMAGEM 2
+![Postman_Transacao](docs/POSTMAN_TRANSACAO.jpeg)
 
 ## Execução do extrato de transações por aluno
 
@@ -41,15 +41,15 @@ Para consultar todas as transações (compras) realizadas por um aluno específi
 
 Obs.: a aplicação de Alunos deve estar em execução e é necessário gerar o token de autenticação antes de chamar a API.
 
-IMAGEM 3
+![Postman_Extrato](docs/POSTMAN_EXTRATO.jpg)
 
 Após o retorno da API clicar em ‘Save Response’ e ‘Save to a file’, selecionar a pasta e salvar o arquivo gerado ‘extratotransacoesporaluno.pdf’:
 
-IMAGEM 4
+![Postman_Gerar_PDF](docs/POSTMAN_GERAR_PDF.jpg)
 
 Exemplo de extrato gerado em PDF:
 
-IMAGEM 5
+![Postman_Extrato_PDF](docs/EXTRATO_PDF.jpg)
 
 ## Demais rotas para gestão das transações
 
@@ -57,4 +57,4 @@ A aplicação permite a criação e exclusão de uma transação, além das rota
 
 http://localhost:8081/swagger-ui.html
 
-IMAGEM 6
+![Swagger](docs/SWAGGER.jpg)
